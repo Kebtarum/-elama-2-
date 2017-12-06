@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru" ng-app="myApp">
+<head>
+	<meta charset="utf-8">
+	
+	<link rel="stylesheet" href="css/mystyles.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://code.angularjs.org/1.4.7/angular.min.js"></script>
+	<script src="app.js"></script>
+</head>
+<body>
+    <div class="page-header">
+        <h1> Расходы и доходы </h1>
+    </div>
+    <div class="panel" ng-controller="pController">
+        <div class="form-inline">
+		    <div class="form-group">
+                <div class="col-md-8">
+                    <input class="form-control" ng-model="date" required  ng-pattern="/\d\d/\d\d/\d\d\d\d/" placeholder="Введите дату">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-8">
+                    <input class="form-control" ng-model="text" placeholder = "Название" >
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input class="form-control" ng-model="price" placeholder="Цена" >
+                </div>
+            </div>
+			<div class="form-group">
+                <div class="col-md-6">
+                    <select class="form-control" size="1" ng-model = "currency">
+						<option selected value = "RUR">RUR</option>
+						<option value = "EUR">EUR</option>
+						<option value = "USD">USD</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <button class="btn btn-default" ng-click="addItem(date,text, price,currency)"
+					ng-click="addSumm(price)">Добавить</button>
+                </div>
+            </div>
+			<div>
+        </div>
+		<div ng-model="summ">
+			<h3>{{RUR + " RUR"}}</h3>
+			<h3>{{EUR + " EUR"}}</h3>
+			<h3>{{USD + " USD"}}</h3>
+		</div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+					<th>Дата</th>
+                    <th>Предмет</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in list.items">
+					<td>{{item.date}}</td>
+                    <td>{{item.purchase}}</td>
+                    <td>{{item.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+		
+    </div>
+</body>
+</html>
