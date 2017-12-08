@@ -10,29 +10,49 @@
 </head>
 <body>
     <div class="page-header">
-        <h1> Расходы и доходы </h1>
+        <h1> Cистема учета личных расходов и доходов </h1> 
     </div>
+	
     <div class="panel" ng-controller="pController">
         <div class="form-inline">
+		<div class="page-header">
+		<h3>Ввод расходов и доходов</h3>
+		</div>
+			<div class="form-group">
+                <div class="col-md-10">
+					<h5>Выберите счёт</h5>
+                    <select class="form-control" ng-model = "modelFP">
+						<option ng-click = "changeList(1)" selected value = "Father">Счет Папы</option>
+						<option ng-click = "changeList(2)" value = "Mother">Счет Мамы</option>
+					</select>
+				</div>
+            </div>
 		    <div class="form-group">
-                <div class="col-md-8">
-                    <input class="form-control" ng-model="date" required  ng-pattern="/\d\d/\d\d/\d\d\d\d/" placeholder="Введите дату">
+                <div class="col-md-10">
+					<h5>Выберите дату</h5>
+                    <!--<input class="form-control" ng-model="date" required  ng-pattern="/\d\d/\d\d/\d\d\d\d/" placeholder="Введите дату">
+					-->
+					<input class="form-control" type="date" name="calendar" ng-model="ThisIsData">
+				</div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+					<h5>Ваш комментарий</h5>
+                    <input class="form-control" ng-model="text" placeholder = "Комментарий" >
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-8">
-                    <input class="form-control" ng-model="text" placeholder = "Название" >
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-6">
-                    <input class="form-control" ng-model="price" placeholder="Цена" >
+                <div class="col-md-12">
+					<h5>Введите сумму(перед суммой обязтельно должен быть знак "-" или "+" )</h5>
+                    <input class="form-control" ng-model="price" placeholder="Сумма" >
+					<p ng-show="price.$touched">The name is required.</p>
                 </div>
             </div>
 			<div class="form-group">
-                <div class="col-md-6">
-                    <select class="form-control" size="1" ng-model = "currency">
-						<option selected value = "RUR">RUR</option>
+                <div class="col-md-12">
+					<h5>Выберите валюту</h5>
+                    <select class="form-control"  ng-model = "currency">
+						<option  value = "RUR">RUR</option>
 						<option value = "EUR">EUR</option>
 						<option value = "USD">USD</option>
 					</select>
@@ -40,17 +60,26 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
-                    <button class="btn btn-default" ng-click="addItem(date,text, price,currency)"
+                    <button class="btn btn-default" ng-click="addItem(ThisIsData,text, price,currency)"
 					ng-click="addSumm(price)">Добавить</button>
                 </div>
             </div>
 			<div>
         </div>
-		<div ng-model="summ">
-			<h3>{{RUR + " RUR"}}</h3>
-			<h3>{{EUR + " EUR"}}</h3>
-			<h3>{{USD + " USD"}}</h3>
+		<div class="page-header">
+			<h3>Мой счёт</h3>
 		</div>
+		<div  class="form-inline" ng-model="summ">
+			<div style="background-color: #f9f9f9" class="form-group col-md-2"><h4>{{list.RUR + " RUR"}}</h4></div>
+			<div style="background-color: #f9f9f9" class="form-group col-md-2"><h4>{{list.EUR + " EUR"}}</h4></div>
+			<div style="background-color: #f9f9f9" class="form-group col-md-2"><h4>{{list.USD + " USD"}}</h4></div>
+		</div>
+		
+		
+		<h3><br><br>Журнал операций</h3>
+		
+		<div class="form-inline">
+		<div class="form-group col-md-8">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -60,15 +89,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in list.items">
+                <tr ng-repeat="item in list.items | filter : selectFilter ">
 					<td>{{item.date}}</td>
                     <td>{{item.purchase}}</td>
                     <td>{{item.price}}</td>
                 </tr>
             </tbody>
         </table>
-
+		</div>
+			<div class="form-group col-md-1">
+			<div class="form-group">
+				<button class="btn btn-default" ng-click="selectFilter = ''"
+						>Все операции</button>
+				
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" ng-click="selectFilter = '-'"
+						>Расходы</button>
+				
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" ng-click="selectFilter = '+'"
+						>Доходы</button>
+				
+			</div>
+			</div>
+		</div>
 		
-    </div>
+		</div>
+		<script>console.log(list.item);</script>
+	</div>
 </body>
 </html>
