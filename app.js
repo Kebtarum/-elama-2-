@@ -19,6 +19,7 @@ myApp.controller("pController", function ($scope) {
 	$scope.AllList = Models;
     $scope.list = modelFather;
 	
+	//СОЗДАНИЕ СЧЕТА
 	$scope.AddModels = function(nameModel){
 		
 		$scope.AllList.push({number: i, name: nameModel, items:[],
@@ -31,6 +32,7 @@ myApp.controller("pController", function ($scope) {
 		//alert (Models.name);
 	};
 	
+	//УДАЛЕНИЕ СЧЕТА
 	$scope.DelModels = function(modelNumber){
 		alert(modelNumber);
 		$scope.AllList.splice(modelNumber,1);
@@ -42,6 +44,16 @@ myApp.controller("pController", function ($scope) {
 		--i
 		//$scope.AllList.splice(number,number);
 	};
+	
+	//РЕДАКТИРОВАНИЕ СЧЕТА(ИМЕНИ)
+	$scope.EditModels = function(newName,modelNumber){
+		alert(newName);
+		$scope.AllList[modelNumber].name = newName;
+		alert($scope.AllList[modelNumber].name);
+		myEdit = false;
+	};
+	
+	
 	
 	$scope.changeList = function(modelFP){
 		$scope.list = modelFP;

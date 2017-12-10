@@ -37,14 +37,42 @@
 							<th>EUR</th>
 							<th>USD</th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="models in AllList">
-							<td>{{models.name}}</td>
+							<td >
+								<p ng-dblclick="myEdit = true" ng-init="myEdit = false">{{models.name}}</p>
+								<!--<input type="checkbox" ng-model="myEdit" ng-init="myEdit = false">
+								-->
+								<div ng-show="myEdit">
+									<input class="form-control" ng-model="newNameModel" placeholder = "Новое имя">
+								
+									<button class="btn btn-default" ng-click="EditModels(newNameModel,models.number); myEdit = false">Редактировать</button>
+									<button class="btn btn-default" ng-click="myEdit = false">X</button>
+								</div>
+								
+							</td>
 							<td>{{models.RUR}}</td>
 							<td>{{models.EUR}}</td>
 							<td>{{models.USD}}</td>
+							
+							<td>
+								<!--<button class="btn btn-default">
+								Редактировать</button>
+								
+								<input class="form-control" type="checkbox" ng-model="myEdit" ng-init="myEdit = false">
+								<div ng-if="myEdit">
+									<input class="form-control" ng-model="nameModel" placeholder = "models.name" >
+								
+								<button class="btn btn-default" ng-click="EditModels(models)">Редактировать</button>
+								</div>
+								
+								<input ng-if="" class="form-control" placeholder = "models.name">
+								-->
+							</td>
+							
 							<td> <button class="btn btn-default" ng-click="DelModels(models.number)">Удалить</button> </td>
 						</tr>
 					</tbody>
