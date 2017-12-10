@@ -14,16 +14,69 @@
     </div>
 	
     <div class="panel" ng-controller="pController">
-        <div class="form-inline">
-		<div class="page-header">
+		<div class="form-inline">
+			<div class="col-md-6">
+				<div class="page-header">
+					<h3> Создание нового счета </h3> 
+				</div>
+				<div>
+					<input class="form-control" ng-model="nameModel" placeholder = "Имя счета" >
+				</div>
+				<button class="btn btn-default" ng-click="AddModels(nameModel)">Создать</button>
+			</div>
+			<div class = "col-md-6">
+				<div class="page-header">
+					<h3>Ваши счета | всего {{AllList.length}}</h3> 
+				</div>
+				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Имя</th>
+							<th>RUR</th>
+							<th>EUR</th>
+							<th>USD</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="models in AllList">
+							<td>{{models.name}}</td>
+							<td>{{models.RUR}}</td>
+							<td>{{models.EUR}}</td>
+							<td>{{models.USD}}</td>
+							<td> <button class="btn btn-default" ng-click="DelModels(models.number)">Удалить</button> </td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+		<!--<div ng-if="AllList.length > 0">
+			<h1> Hello WORLD!</h1>
+		</div>
+		-->
+		</div>
+        <div class="form-inline" ng-if = "AllList.length > 0">
+		
+		
+		<!--ПЕРЕМЕЩЕНИЕ СО СЧЕТА НА СЧЕТ-->
+		<div>
+			
+		</div>
+		
+		
+		<!--РАСХОДЫ И ДОХОДЫ-->
+		<div class="page-header  col-md-12">
 		<h3>Ввод расходов и доходов</h3>
 		</div>
 			<div class="form-group">
-                <div class="col-md-10">
+                <div class="col-md-12">
 					<h5>Выберите счёт</h5>
-                    <select class="form-control" ng-model = "modelFP">
-						<option ng-click = "changeList(1)" selected value = "Father">Счет Папы</option>
-						<option ng-click = "changeList(2)" value = "Mother">Счет Мамы</option>
+                    <select class="form-control" ng-model = "modelFP" >
+						<option ng-repeat="models in AllList" ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
+						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
+						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
+						-->
 					</select>
 				</div>
             </div>
@@ -43,7 +96,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-					<h5>Введите сумму(перед суммой обязтельно должен быть знак "-" или "+" )</h5>
+					<h5>Введите сумму(перед суммой обязательно должен быть знак "-" или "+" )</h5>
                     <input class="form-control" ng-model="price" placeholder="Сумма" >
 					<p ng-show="price.$touched">The name is required.</p>
                 </div>
@@ -61,13 +114,12 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <button class="btn btn-default" ng-click="addItem(ThisIsData,text, price,currency)"
-					ng-click="addSumm(price)">Добавить</button>
+					>Добавить</button>
                 </div>
             </div>
-			<div>
-        </div>
+		
 		<div class="page-header">
-			<h3>Мой счёт</h3>
+			<h3>Счёт {{list.name}}</h3>
 		</div>
 		<div  class="form-inline" ng-model="summ">
 			<div style="background-color: #f9f9f9" class="form-group col-md-2"><h4>{{list.RUR + " RUR"}}</h4></div>
