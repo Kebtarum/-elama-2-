@@ -24,7 +24,7 @@
 				</div>
 				<button class="btn btn-default" ng-click="AddModels(nameModel)">Создать</button>
 			</div>
-			<div class = "col-md-6">
+			<div class = "col-md-6" ng-if = "AllList.length > 0">
 				<div class="page-header">
 					<h3>Ваши счета | всего {{AllList.length}}</h3> 
 				</div>
@@ -84,24 +84,86 @@
 		</div>
 		-->
 		</div>
-        <div class="form-inline" ng-if = "AllList.length > 0">
+        <div  class="form-inline" ng-if = "AllList.length > 0">
 		
+			<div>
+				<button class="btn btn-default"
+				ng-click="myTransfer = true; myJurn = false"
+				ng-init="myTransfer = false; myJurn = false">Перевод денег</button>
+			</div>
+			<div>
+				<button class="btn btn-default"
+				ng-click="myTransfer = false; myJurn = true"
+				ng-init="myTransfer = false; myJurn = false">Расходы и доходы</button>
+			</div>
+	
 		
 		<!--ПЕРЕМЕЩЕНИЕ СО СЧЕТА НА СЧЕТ-->
-		<div>
+		<div ng-if="myTransfer">
+			<div class="page-header  col-md-12">
+				<h3>Перевод на другой счёт</h3>
+			</div>
+			<div class="form-inline">
+				
+				<div class="col-md-1 ">
+				<h5>Из</h5>
+                <select class="form-control">
+					<option selected ng-repeat="models in AllList"  ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
+					<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
+					<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
+					-->
+				</select>
+				</div>
+				
+				
+				<div class="col-md-2">
+				<h5>Сколько</h5>
+					<div class="form-group">
+					
+						<input class="form-control" ng-model="summ" placeholder="Сумма" >
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<h5>Выберите валюту</h5>
+						<select class="form-control"  ng-model = "currency">
+							<option  value = "RUR">RUR</option>
+							<option value = "EUR">EUR</option>
+							<option value = "USD">USD</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<h5>На какой счёт</h5>
+					<select class="form-control" ng-model="number">
+						<option ng-repeat="models in AllList" value = "{{models.number}}">{{models.name}} </option>
+						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
+						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
+						-->
+					</select>
+				</div>
+				<div class="col-md-6">
+						<br><br>
+						<button class="btn btn-default" ng-click="TransferCurrency(summ, currency,number)"
+						>Перевести</button>
+				</div>
+				
+			</div>
+			
 			
 		</div>
 		
 		
 		<!--РАСХОДЫ И ДОХОДЫ-->
-		<div class="page-header  col-md-12">
-		<h3>Ввод расходов и доходов</h3>
-		</div>
+		<div ng-if="myJurn">
+			<div  class="page-header  col-md-12">
+			<h3>Ввод расходов и доходов</h3>
+			</div>
 			<div class="form-group">
                 <div class="col-md-12">
 					<h5>Выберите счёт</h5>
-                    <select class="form-control" ng-model = "modelFP" >
-						<option ng-repeat="models in AllList" ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
+                    <select class="form-control" >
+						<option selected ng-repeat="models in AllList" ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
 						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
 						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
 						-->
@@ -126,7 +188,6 @@
                 <div class="col-md-12">
 					<h5>Введите сумму(перед суммой обязательно должен быть знак "-" или "+" )</h5>
                     <input class="form-control" ng-model="price" placeholder="Сумма" >
-					<p ng-show="price.$touched">The name is required.</p>
                 </div>
             </div>
 			<div class="form-group">
@@ -196,6 +257,7 @@
 			</div>
 		</div>
 		
+		</div>
 		</div>
 		<script>console.log(list.item);</script>
 	</div>

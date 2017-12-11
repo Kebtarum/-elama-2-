@@ -27,6 +27,7 @@ myApp.controller("pController", function ($scope) {
 		EUR : 0,
 		USD : 0
 		});
+		$scope.list = $scope.AllList[i];
 		i++;
 		//alert ($scope.AllList);
 		//alert (Models.name);
@@ -42,28 +43,73 @@ myApp.controller("pController", function ($scope) {
 			modelNumber++;
 		}
 		--i
+		if($scope.AllList.length == 1)
+			$scope.changeList($scope.AllList[0]);
 		//$scope.AllList.splice(number,number);
 	};
 	
 	//РЕДАКТИРОВАНИЕ СЧЕТА(ИМЕНИ)
 	$scope.EditModels = function(newName,modelNumber){
-		alert(newName);
+		//alert(newName);
 		$scope.AllList[modelNumber].name = newName;
-		alert($scope.AllList[modelNumber].name);
+		//alert($scope.AllList[modelNumber].name);
 		myEdit = false;
 	};
 	
 	
-	
+	//ВЫБОР СЧЕТА
 	$scope.changeList = function(modelFP){
 		$scope.list = modelFP;
 		//if(modelFP == 1)
 			//$scope.list = modelFather;
 		//else
 			//$scope.list = modelMother;
-		alert("Привет " + $scope.list.name);
+		//alert("Привет " + $scope.list.name);
 	};
 	
+	
+	//ПЕРЕВОД ДЕНЕГ НА ДРУГОЙ СЧЕТ
+	$scope.TransferCurrency = function(summ ,currency, number){
+		if($scope.AllList[number].number == number)
+			return alert("Так нельзя! ");
+		var BUF = parseFloat(summ);
+		switch(currency){
+			case "RUR": 
+				if(BUF <= $scope.list.RUR){
+					$scope.list.RUR = $scope.list.RUR - BUF;
+					alert($scope.list.RUR);
+					//alert($scope.list.number);
+					//alert(number);
+					$scope.AllList[number].RUR += BUF;
+					alert("Операция прошла успешна!");
+				}
+				else
+					alert("Не хватает средств");
+				break;
+			case "EUR": 
+				if(BUF <= $scope.list.EUR){
+					$scope.list.EUR -= BUF;
+					alert($scope.list.USD);
+					$scope.AllList[number].EUR += BUF;
+					alert("Операция прошла успешна!");
+				}
+				else
+					alert("Не хватает средств");
+				break;
+			case "USD":
+				if(BUF <= $scope.list.USD){
+					$scope.list.USD -= BUF;
+					alert($scope.list.USD);
+					$scope.AllList[number].USD += BUF;
+					alert("Операция прошла успешна!");
+				}
+				else
+					alert("Не хватает средств");
+				break;
+				
+			default: break;
+		}			
+	};
 	
     $scope.addItem = function (ThisIsData ,text, price,currency) {
        // price = parseFloat(price); // преобразуем введенное значение к числу
