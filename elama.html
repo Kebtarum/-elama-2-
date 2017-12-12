@@ -3,10 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	
-	<link rel="stylesheet" href="css/mystyles.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<script type="text/javascript" src="https://code.angularjs.org/1.4.7/angular.min.js"></script>
-	<script src="app.js"></script>
+	<script src="js/controllers/app.js"></script>
+	<script src="js/lib/angular.min.js"></script>
+	
 </head>
 <body>
     <div class="page-header">
@@ -41,9 +43,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="models in AllList">
+						<tr ng-repeat="models in AllList" ng-dblclick="myEdit = true" ng-init="myEdit = false">
 							<td >
-								<p ng-dblclick="myEdit = true" ng-init="myEdit = false">{{models.name}}</p>
+								{{models.name}}
 								<!--<input type="checkbox" ng-model="myEdit" ng-init="myEdit = false">
 								-->
 								<div ng-show="myEdit">
@@ -56,7 +58,11 @@
 							</td>
 							<td>{{models.RUR}}</td>
 							<td>{{models.EUR}}</td>
-							<td>{{models.USD}}</td>
+							<td>{{models.USD}}
+								<div ng-show="myEdit">
+									<button class="btn btn-default" ng-click="DelModels(models.number)">Удалить</button>
+								</div>
+							</td>
 							
 							<td>
 								<!--<button class="btn btn-default">
@@ -73,7 +79,7 @@
 								-->
 							</td>
 							
-							<td> <button class="btn btn-default" ng-click="DelModels(models.number)">Удалить</button> </td>
+							<td>  </td>
 						</tr>
 					</tbody>
 				</table>
@@ -278,15 +284,39 @@
             <thead>
                 <tr>
 					<th>Дата</th>
-                    <th>Предмет</th>
-                    <th>Цена</th>
+                    <th>Комментарий</th>
+                    <th>Сумма</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in list.items | filter : selectFilter ">
-					<td>{{item.date}}</td>
-                    <td>{{item.purchase}}</td>
-                    <td>{{item.price}}</td>
+                <tr ng-repeat="item in list.items | filter : selectFilter " ng-dblclick="myItemEdit = true" ng-init="myItemEdit = false" >
+					<td >
+						{{item.date}}
+						<div ng-show="myItemEdit">
+							<input class="form-control" type="date" name="calendar" ng-model="ReData">
+						</div>
+					</td>
+                    <td>
+						{{item.comment}}
+						<div ng-show="myItemEdit">
+							<input class="form-control" ng-model="ReText" placeholder = "Комментарий" >
+						</div>
+					</td>
+                    <td>
+						{{item.price + ' ' + item.currency}}
+						<div ng-show="myItemEdit">
+							<input class="form-control" ng-model="RePrice" placeholder="Сумма" >
+							<select class="form-control"  ng-model = "ReCurrency">
+								<option  value = "RUR">RUR</option>
+								<option value = "EUR">EUR</option>
+								<option value = "USD">USD</option>
+							</select>
+							<button class="btn btn-default" ng-click="EditList(item.number,ReData,ReText,RePrice, ReCurrency); myItemEdit = false">Редактировать</button>
+							<button class="btn btn-default" ng-click="DelList(item.number)">Удалить</button>
+							<button class="btn btn-default" ng-click="myItemEdit = false">X</button>
+							
+						</div>
+					</td>
                 </tr>
             </tbody>
         </table>
