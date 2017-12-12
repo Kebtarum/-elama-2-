@@ -30,7 +30,7 @@
 				<div class="page-header">
 					<h3>Ваши счета | всего {{AllList.length}}</h3> 
 				</div>
-				
+				<p>При двойном щелчке строки счета открывается окошко редактирования</p>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -280,6 +280,7 @@
 		
 		<div class="form-inline">
 		<div class="form-group col-md-8">
+		<p ng-if="list.items.length >= 1">При двойном щелчке строки операции открывается окошко редактирования</p>
         <table class="table table-striped">
             <thead>
                 <tr>
