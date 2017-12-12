@@ -20,7 +20,7 @@
 					<h3> Создание нового счета </h3> 
 				</div>
 				<div>
-					<input class="form-control" ng-model="nameModel" placeholder = "Имя счета" >
+					<input  class="form-control" ng-model="nameModel" placeholder = "Имя счета" >
 				</div>
 				<button class="btn btn-default" ng-click="AddModels(nameModel)">Создать</button>
 			</div>
@@ -87,14 +87,22 @@
         <div  class="form-inline" ng-if = "AllList.length > 0">
 		
 			<div>
-				<button class="btn btn-default"
-				ng-click="myTransfer = true; myJurn = false"
-				ng-init="myTransfer = false; myJurn = false">Перевод денег</button>
+				<button class="btn btn-default" ng-disabled="myTransfer"
+				ng-click="myTransfer = true; myJurn = false; myCurrency = false;
+				changeList(modelFather);"
+				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Перевод денег</button>
 			</div>
 			<div>
-				<button class="btn btn-default"
-				ng-click="myTransfer = false; myJurn = true"
-				ng-init="myTransfer = false; myJurn = false">Расходы и доходы</button>
+				<button class="btn btn-default" ng-disabled="myJurn"
+				ng-click="myTransfer = false; myJurn = true;myCurrency = false;
+				changeList(modelFather);"
+				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Расходы и доходы</button>
+			</div>
+			<div>
+				<button class="btn btn-default" ng-disabled="myCurrency"
+				ng-click="myTransfer = false; myJurn = false; myCurrency = true;
+				changeList(modelFather);"
+				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Обмен валюты</button>
 			</div>
 	
 		
@@ -107,8 +115,8 @@
 				
 				<div class="col-md-1 ">
 				<h5>Из</h5>
-                <select class="form-control">
-					<option selected ng-repeat="models in AllList"  ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
+                <select class="form-control" ng-model="musor">
+					<option  ng-repeat="models in AllList"  ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
 					<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
 					<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
 					-->
@@ -116,16 +124,11 @@
 				</div>
 				
 				
-				<div class="col-md-2">
+				<div class="col-md-3">
 				<h5>Сколько</h5>
 					<div class="form-group">
 					
 						<input class="form-control" ng-model="summ" placeholder="Сумма" >
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<h5>Выберите валюту</h5>
 						<select class="form-control"  ng-model = "currency">
 							<option  value = "RUR">RUR</option>
 							<option value = "EUR">EUR</option>
@@ -153,21 +156,75 @@
 			
 		</div>
 		
+		<!--ОБМЕН ВАЛЮТЫ-->
+		<div ng-if="myCurrency" >
+			<div class="page-header  col-md-12">
+				<h3>Обмен валюты</h3>
+			</div>
+			<div class="col-md-12">
+                <div class="form-group col-md-2">
+					<h5>Выберите счёт</h5>
+                    <select class="form-control" ng-model="musor">
+						<option ng-repeat="models in AllList" ng-click = "changeList(models)">{{models.name}} </option>
+						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
+						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
+						-->
+					</select>
+					<div  ng-model="summ">
+						<h4 style="background-color: #f9f9f9" >{{list.RUR + " RUR"}}</h4>
+						<h4 style="background-color: #f9f9f9" >{{list.EUR + " EUR"}}</h4>
+						<h4 style="background-color: #f9f9f9" >{{list.USD + " USD"}}</h4>
+					</div>
+					
+					
+				</div>
+				<div class="col-md-3">
+					<div>
+						<h5>Обменять</h5>
+                    <input class="form-control" ng-model="price" placeholder="Сумма" >
+					<select class="form-control"  ng-model = "currencyFROM">
+						<option  value = "RUR">RUR</option>
+						<option value = "EUR">EUR</option>
+						<option value = "USD">USD</option>
+					</select>
+                </div>
+				</div>
+
+				<div class="col-md-2">
+					<h5>На</h5>
+                    <select class="form-control"  ng-model = "currencyTO">
+						<option  value = "RUR">RUR</option>
+						<option value = "EUR">EUR</option>
+						<option value = "USD">USD</option>
+					</select>
+					<h4 ng-if="currencyTO == 'RUR'"> 1 RUR = 0.01697 USD<br> 1 RUR = 0.0144143 EUR</h4>
+					<h4 ng-if="currencyTO == 'EUR'"> 1 EUR = 69.3753683 RUR<br> 1 EUR = 1.1773 USD</h4>
+					<h4 ng-if="currencyTO == 'USD'"> 1 USD = 57.9275192 RUR<br> 1 USD = 0.849401172 EUR</h4>
+                </div>
+				<div class="col-md-4">
+					<br><br>
+                    <button class="btn btn-default" ng-click="switchCurrency(price ,currencyFROM, currencyTO)"
+					>Вперед!</button>
+                </div>
+            </div>
+		</div>
+		
 		
 		<!--РАСХОДЫ И ДОХОДЫ-->
 		<div ng-if="myJurn">
 			<div  class="page-header  col-md-12">
 			<h3>Ввод расходов и доходов</h3>
 			</div>
-			<div class="form-group">
-                <div class="col-md-12">
+			<div class="col-md-12">
+                <div class="form-group">
 					<h5>Выберите счёт</h5>
-                    <select class="form-control" >
-						<option selected ng-repeat="models in AllList" ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
+                    <select class="form-control" ng-model="musor">
+						<option ng-repeat="models in AllList" ng-click = "changeList(models)" value = "models.name">{{models.name}} </option>
 						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
 						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
 						-->
 					</select>
+					
 				</div>
             </div>
 		    <div class="form-group">
@@ -188,11 +245,6 @@
                 <div class="col-md-12">
 					<h5>Введите сумму(перед суммой обязательно должен быть знак "-" или "+" )</h5>
                     <input class="form-control" ng-model="price" placeholder="Сумма" >
-                </div>
-            </div>
-			<div class="form-group">
-                <div class="col-md-12">
-					<h5>Выберите валюту</h5>
                     <select class="form-control"  ng-model = "currency">
 						<option  value = "RUR">RUR</option>
 						<option value = "EUR">EUR</option>
@@ -202,6 +254,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
+					<br><br>
                     <button class="btn btn-default" ng-click="addItem(ThisIsData,text, price,currency)"
 					>Добавить</button>
                 </div>
@@ -245,12 +298,12 @@
 				
 			</div>
 			<div class="form-group">
-				<button class="btn btn-default" ng-click="selectFilter = '-'"
+				<button class="btn btn-default" ng-click="selectFilter = {price:'-'}"
 						>Расходы</button>
 				
 			</div>
 			<div class="form-group">
-				<button class="btn btn-default" ng-click="selectFilter = '+'"
+				<button class="btn btn-default" ng-click="selectFilter = {price:'+'}"
 						>Доходы</button>
 				
 			</div>
