@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	
+	<link rel="stylesheet" href="css/myCss.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<script type="text/javascript" src="https://code.angularjs.org/1.4.7/angular.min.js"></script>
@@ -92,24 +93,25 @@
 		</div>
         <div  class="form-inline" ng-if = "AllList.length > 0">
 		
-			<div>
+			<div >
 				<button class="btn btn-default" ng-disabled="myTransfer"
 				ng-click="myTransfer = true; myJurn = false; myCurrency = false;
 				changeList(modelFather);"
 				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Перевод денег</button>
 			</div>
-			<div>
+			<div >
 				<button class="btn btn-default" ng-disabled="myJurn"
 				ng-click="myTransfer = false; myJurn = true;myCurrency = false;
 				changeList(modelFather);"
-				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Расходы и доходы</button>
+				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Расходы/доходы</button>
 			</div>
-			<div>
+			<div >
 				<button class="btn btn-default" ng-disabled="myCurrency"
 				ng-click="myTransfer = false; myJurn = false; myCurrency = true;
 				changeList(modelFather);"
 				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Обмен валюты</button>
 			</div>
+		</div>
 	
 		
 		<!--ПЕРЕМЕЩЕНИЕ СО СЧЕТА НА СЧЕТ-->
@@ -285,12 +287,12 @@
             <thead>
                 <tr>
 					<th>Дата</th>
-                    <th>Комментарий</th>
+                    <th>Имя расхода/дохода</th>
                     <th>Сумма</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in list.items | filter : selectFilter " ng-dblclick="myItemEdit = true" ng-init="myItemEdit = false" >
+                <tr ng-repeat="item in list.items | filter : selectFilterOne" ng-dblclick="myItemEdit = true" ng-init="myItemEdit = false" >
 					<td >
 						{{item.date}}
 						<div ng-show="myItemEdit">
@@ -300,7 +302,7 @@
                     <td>
 						{{item.comment}}
 						<div ng-show="myItemEdit">
-							<input class="form-control" ng-model="ReText" placeholder = "Комментарий" >
+							<input class="form-control" ng-model="ReText" placeholder = "Имя" >
 						</div>
 					</td>
                     <td>
@@ -323,21 +325,36 @@
         </table>
 		</div>
 			<div class="form-group col-md-1">
-			<div class="form-group">
-				<button class="btn btn-default" ng-click="selectFilter = ''"
-						>Все операции</button>
+				<div class="form-group">
+					<button class="btn btn-default" ng-click="selectFilterOne = ''"
+							>Все операции</button>
+					
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" ng-click="selectFilterOne = {price:'-'}"
+							>Расходы</button>
+					
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" ng-click="selectFilterOne = {price:'+'}"
+							>Доходы</button>
+					
+				</div>
+				<div class="form-group">
 				
-			</div>
-			<div class="form-group">
-				<button class="btn btn-default" ng-click="selectFilter = {price:'-'}"
-						>Расходы</button>
+					<h5></h5>
+					<select class="form-control">
+						<option  selected>Другие фильтры </option>
+						<option  ng-click = "selectFilterOne = {date: thisDay()}">За этот день</option>
+						<option disabled ng-click = "selectFilterOne = thisWeek()">За эту неделю</option>
+						<option disabled ng-click = "selectFilter">За этот месяц</option>
+						<option disabled ng-click = "selectFilter">За этот год</option>
+						<!--<option ng-click = "changeList(1)" selected value = "Father">Счет Первый</option>
+						<option ng-click = "changeList(2)" value = "Mother">Счет Второй</option>
+						-->
+					</select>
 				
-			</div>
-			<div class="form-group">
-				<button class="btn btn-default" ng-click="selectFilter = {price:'+'}"
-						>Доходы</button>
-				
-			</div>
+				</div>
 			</div>
 		</div>
 		
