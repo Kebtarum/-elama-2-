@@ -9,7 +9,7 @@ var modelFather = {name: "Не выбран",items:[],
 	//RUR : 0,
 	//EUR : 0,
 	//USD : 0};
-var selectFilter = "{price: '-'}";
+
 var myApp = angular.module("myApp", []);
 
 myApp.controller("pController", function ($scope) {
@@ -21,16 +21,20 @@ myApp.controller("pController", function ($scope) {
 	
 	//СОЗДАНИЕ СЧЕТА
 	$scope.AddModels = function(nameModel){
+		for(var i = 0; i < $scope.AllList.length; i++){
+			if(nameModel == $scope.AllList[i].name)
+				return alert("Счёт с данным названием уже существует");
+		}
 		if(nameModel != undefined){
-		$scope.AllList.push({number: i, name: nameModel, items:[],
-		RUR : 0,
-		EUR : 0,
-		USD : 0
-		});
-		$scope.list = $scope.AllList[i];
-		i++;
-		//alert ($scope.AllList);
-		//alert (Models.name);
+			$scope.AllList.push({number: i, name: nameModel, items:[],
+			RUR : 0,
+			EUR : 0,
+			USD : 0
+			});
+			$scope.list = $scope.AllList[i];
+			i++;
+			//alert ($scope.AllList);
+			//alert (Models.name);
 		}
 		else
 			return alert('Введите название счёта!');
@@ -301,6 +305,35 @@ myApp.controller("pController", function ($scope) {
 		}
 		else
 			return alert("Вы забыли ввести '+' или '-' в сумме!");
+	};
+	
+	
+	/////ФИЛЬТРЫ
+	$scope.thisDay = function(){
+		var TDay = new Date();
+		//alert("вроде");
+		return TDay.toLocaleDateString();
+	};
+	$scope.thisWeek = function(){
+		var TDay = new Date();
+		TDay.toLocaleDateString();
+		var i = 1 , j = 1;
+		var WEEK = "";
+		WEEK += TDay.toLocaleDateString() + ', ';
+		//alert(WEEK);
+		while(i < 8){
+			if( i != 7){
+			TDay.setDate(TDay.getDate() - j);
+			WEEK += TDay.toLocaleDateString() + ', ';
+			}
+			else
+				WEEK += TDay.toLocaleDateString();
+			i++;
+			
+			//alert(WEEK);
+		}
+		alert(WEEK)
+		return WEEK;
 	};
 	
 	
