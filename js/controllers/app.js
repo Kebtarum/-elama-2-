@@ -91,7 +91,7 @@ myApp.controller("pController", function ($scope) {
 			case "RUR": 
 				if(BUF <= $scope.list.RUR){
 					$scope.list.RUR = $scope.list.RUR - BUF;
-					alert($scope.list.RUR);
+					//alert($scope.list.RUR);
 					//alert($scope.list.number);
 					//alert(number);
 					$scope.AllList[numberModel].RUR += BUF;
@@ -103,7 +103,7 @@ myApp.controller("pController", function ($scope) {
 			case "EUR": 
 				if(BUF <= $scope.list.EUR){
 					$scope.list.EUR -= BUF;
-					alert($scope.list.USD);
+					//alert($scope.list.USD);
 					$scope.AllList[numberModel].EUR += BUF;
 					alert("Операция прошла успешна!");
 				}
@@ -113,7 +113,7 @@ myApp.controller("pController", function ($scope) {
 			case "USD":
 				if(BUF <= $scope.list.USD){
 					$scope.list.USD -= BUF;
-					alert($scope.list.USD);
+					//alert($scope.list.USD);
 					$scope.AllList[numberModel].USD += BUF;
 					alert("Операция прошла успешна!");
 				}
@@ -313,27 +313,6 @@ myApp.controller("pController", function ($scope) {
 		var TDay = new Date();
 		//alert("вроде");
 		return TDay.toLocaleDateString();
-	};
-	$scope.thisWeek = function(){
-		var TDay = new Date();
-		TDay.toLocaleDateString();
-		var i = 1 , j = 1;
-		var WEEK = "";
-		WEEK += TDay.toLocaleDateString() + ', ';
-		//alert(WEEK);
-		while(i < 8){
-			if( i != 7){
-			TDay.setDate(TDay.getDate() - j);
-			WEEK += TDay.toLocaleDateString() + ', ';
-			}
-			else
-				WEEK += TDay.toLocaleDateString();
-			i++;
-			
-			//alert(WEEK);
-		}
-		alert(WEEK)
-		return WEEK;
 	};
 	
 	
