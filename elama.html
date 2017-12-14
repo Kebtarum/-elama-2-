@@ -74,15 +74,16 @@
         <div ng-if = "AllList.length > 0">
 		
 			<div>
-				<button style="background-color: blue; color: white" class="btn btn-default" ng-disabled="myTransfer"
-				ng-click="myTransfer = true; myJurn = false; myCurrency = false; changeList(modelFather);"
-				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Перевод денег</button>
-			</div>
-			<div>
 				<button style="background-color: blue; color: white" class="btn btn-default" ng-disabled="myJurn"
 				ng-click="myTransfer = false; myJurn = true;myCurrency = false;	changeList(modelFather);"
 				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Расходы/доходы</button>
 			</div>
+			<div>
+				<button style="background-color: blue; color: white" class="btn btn-default" ng-disabled="myTransfer"
+				ng-click="myTransfer = true; myJurn = false; myCurrency = false; changeList(modelFather);"
+				ng-init="myTransfer = false; myJurn = false; myCurrency = false">Перевод денег</button>
+			</div>
+
 			<div>
 				<button style="background-color: blue; color: white" class="btn btn-default" ng-disabled="myCurrency"
 				ng-click="myTransfer = false; myJurn = false; myCurrency = true; changeList(modelFather);"
