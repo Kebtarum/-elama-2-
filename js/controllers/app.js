@@ -90,11 +90,11 @@ myApp.controller("pController", function ($scope) {
 		switch(currency){
 			case "RUR": 
 				if(BUF <= $scope.list.RUR){
-					$scope.list.RUR = $scope.list.RUR - BUF;
+					$scope.list.RUR = +($scope.list.RUR - BUF).toFixed(2);
 					//alert($scope.list.RUR);
 					//alert($scope.list.number);
 					//alert(number);
-					$scope.AllList[numberModel].RUR += BUF;
+					$scope.AllList[numberModel].RUR = +($scope.AllList[numberModel].RUR  + BUF).toFixed(2);
 					alert("Операция прошла успешна!");
 				}
 				else
@@ -102,9 +102,9 @@ myApp.controller("pController", function ($scope) {
 				break;
 			case "EUR": 
 				if(BUF <= $scope.list.EUR){
-					$scope.list.EUR -= BUF;
+					$scope.list.EUR = ($scope.list.EUR - BUF).toFixed(2);
 					//alert($scope.list.USD);
-					$scope.AllList[numberModel].EUR += BUF;
+					$scope.AllList[numberModel].EUR = +($scope.AllList[numberModel].EUR  + BUF).toFixed(2);
 					alert("Операция прошла успешна!");
 				}
 				else
@@ -112,9 +112,9 @@ myApp.controller("pController", function ($scope) {
 				break;
 			case "USD":
 				if(BUF <= $scope.list.USD){
-					$scope.list.USD -= BUF;
+					$scope.list.USD = ($scope.list.USD - BUF).toFixed(2);
 					//alert($scope.list.USD);
-					$scope.AllList[numberModel].USD += BUF;
+					$scope.AllList[numberModel].USD = +($scope.AllList[numberModel].USD  + BUF).toFixed(2);
 					alert("Операция прошла успешна!");
 				}
 				else
@@ -128,6 +128,9 @@ myApp.controller("pController", function ($scope) {
 	
 	//ОБМЕН ВАЛЮТЫ
 	$scope.switchCurrency = function(price ,FROM,TO){
+	if((price.indexOf('-') >= 0) || (price.indexOf('+') >= 0)){
+		return alert("В сумме не должно быть никаких знаков");
+	}
 		if(FROM != TO){
 		var BUF = parseFloat(price);
 		switch(FROM){
@@ -135,11 +138,11 @@ myApp.controller("pController", function ($scope) {
 				if(price <= $scope.list.RUR){
 					$scope.list.RUR -= BUF;
 					if(TO == 'EUR'){
-						$scope.list.EUR = $scope.list.EUR + 0.0144143 * BUF;
+						$scope.list.EUR = +($scope.list.EUR + 0.0144143 * BUF).toFixed(2);
 						alert("Операция прошла успешна!");
 					}
 					else{
-						$scope.list.USD = $scope.list.USD + 0.01697 * BUF;
+						$scope.list.USD = +($scope.list.USD + 0.01697 * BUF).toFixed(2);
 						alert("Операция прошла успешна!");
 					}
 				}
@@ -150,11 +153,11 @@ myApp.controller("pController", function ($scope) {
 				if(price <= $scope.list.EUR){
 					$scope.list.EUR -= BUF;
 					if(TO == 'RUR'){
-						$scope.list.RUR = $scope.list.RUR + 69.3753683 * BUF;
+						$scope.list.RUR = +($scope.list.RUR + 69.3753683 * BUF).toFixed(2);
 						alert("Операция прошла успешна!");
 					}
 					else{
-						$scope.list.USD = $scope.list.USD + 1.1773 * BUF;
+						$scope.list.USD = +($scope.list.USD + 1.1773 * BUF).toFixed(2);
 						alert("Операция прошла успешна!");
 					}
 				}
@@ -163,13 +166,13 @@ myApp.controller("pController", function ($scope) {
 				break;
 			case "USD":
 				if(price <= $scope.list.USD){
-					$scope.list.EUR -= BUF;
+					$scope.list.USD -= BUF;
 					if(TO == 'RUR'){
-						$scope.list.RUR = $scope.list.RUR + 57.9275192 * BUF;
+						$scope.list.RUR = +($scope.list.RUR + 57.9275192 * BUF).toFixed(2)
 						alert("Операция прошла успешна!");
 					}
 					else{
-						$scope.list.EUR = $scope.list.EUR + 0.849401172 * BUF;
+						$scope.list.EUR = +($scope.list.EUR + 0.849401172 * BUF).toFixed(2);
 						alert("Операция прошла успешна!");
 					}
 				}
@@ -334,27 +337,27 @@ myApp.controller("pController", function ($scope) {
 				switch(currency){
 					case "RUR": 
 						if(buf == '+'){
-							$scope.list.RUR = $scope.list.RUR + +price
+							$scope.list.RUR = +($scope.list.RUR + +price).toFixed(2);
 							//alert($scope.list.RUR);
 						}
 						else{
-							$scope.list.RUR = $scope.list.RUR - +price;
+							$scope.list.RUR = +($scope.list.RUR - +price).toFixed(2);
 						}
 						break;
 					case "EUR": 
 						if(buf == '+'){
-							$scope.list.EUR = $scope.list.EUR + +price
+							$scope.list.EUR = +($scope.list.EUR + +price).toFixed(2);
 						}
 						else{
-							$scope.list.EUR = $scope.list.EUR - +price;
+							$scope.list.EUR = +($scope.list.EUR - +price).toFixed(2);
 						}
 						break;
 					case "USD":
 						if(buf == '+'){
-							$scope.list.USD = $scope.list.USD + +price
+							$scope.list.USD = +($scope.list.USD + +price).toFixed(2);
 						}
 						else{
-							$scope.list.USD = $scope.list.USD - +price;
+							$scope.list.USD = +($scope.list.USD - +price).toFixed(2);
 						}
 						break;
 					default: break;	
